@@ -18,7 +18,7 @@ function getComputerChoice() {
 function playRound(playerSelection, computerSelection) {
   // convert playerSelection to the same capitalization as computerSelection
   playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1).toLowerCase();
-  console.log(playerSelection);
+  console.log(`You chose: ${playerSelection}. computer chose: ${computerSelection}`);
 
   if (playerSelection === computerSelection) {
     return "Draw";
@@ -49,8 +49,34 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-let computerSelection = getComputerChoice();
+let playerScore = 0;
+let computerScore = 0;
 
-console.log(computerSelection);
+// Play 5 rounds and keep track of the score
+for(let i = 0; i < 5; i++) {
+  let result = playRound(prompt("enter your choice of Rock, Paper, or Scissors"), getComputerChoice());
+  console.log(result);
+  if (result.split(" ")[1] === "win!") {
+    playerScore++;
+  }
+  else if (result.split(" ")[1] === "lose.") {
+    computerScore++;
+  }
+  else if (result === "Draw") {}
+  else {
+    console.log("please enter a valid move choice");
+    i--
+  }
+  console.log(`score is player: ${playerScore} computer: ${computerScore}`);
+}
 
-console.log(playRound('rOCK', computerSelection));
+// Determine winner of the best of five
+if (playerScore > computerScore) {
+  console.log(`You win! score is player: ${playerScore} computer: ${computerScore}`);
+}
+else if (computerScore > playerScore) {
+  console.log(`You lose. score is player: ${playerScore} computer: ${computerScore}`); 
+}
+else {
+  console.log(`Draw. score is player: ${playerScore} computer: ${computerScore}`)
+}
