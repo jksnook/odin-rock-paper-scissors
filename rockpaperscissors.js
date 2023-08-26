@@ -51,32 +51,36 @@ function playRound(playerSelection, computerSelection) {
 
 let playerScore = 0;
 let computerScore = 0;
+let roundsPlayed = 0;
 
-// Play 5 rounds and keep track of the score
-for(let i = 0; i < 5; i++) {
-  let result = playRound(prompt("enter your choice of Rock, Paper, or Scissors"), getComputerChoice());
-  console.log(result);
-  if (result.split(" ")[1] === "win!") {
-    playerScore++;
-  }
-  else if (result.split(" ")[1] === "lose.") {
-    computerScore++;
-  }
-  else if (result === "Draw") {}
-  else {
-    console.log("please enter a valid move choice");
-    i--
-  }
-  console.log(`score is player: ${playerScore} computer: ${computerScore}`);
-}
+const buttons = document.querySelectorAll('button');
+const resultDiv = document.querySelector('.result');
 
-// Determine winner of the best of five
-if (playerScore > computerScore) {
-  console.log(`You win! score is player: ${playerScore} computer: ${computerScore}`);
-}
-else if (computerScore > playerScore) {
-  console.log(`You lose. score is player: ${playerScore} computer: ${computerScore}`); 
-}
-else {
-  console.log(`Draw. score is player: ${playerScore} computer: ${computerScore}`)
-}
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    result = playRound(button.classList.value, getComputerChoice());
+    resultDiv.textContent = result;
+    if (result.split(" ")[1] === "win!") {
+      playerScore++;
+    }
+    else if (result.split(" ")[1] === "lose.") {
+      computerScore++;
+    }
+    roundsPlayed++;
+    resultDiv.textContent = `${result} score is player: ${playerScore} computer: ${computerScore}. ${roundsPlayed} rounds played.`;
+    if (roundsPlayed >= 5) {
+      if (playerScore > computerScore) {
+        resultDiv.textContent += ` You win the game!`;
+      }
+      else if (computerScore > playerScore) {
+        resultDiv.textContent += ` You lose the game.`; 
+      }
+      else {
+        resultDiv.textContent += ` The game is a draw.`;
+      }
+      roundsPlayed = 0;
+      playerScore = 0;
+      computerScore = 0;
+    }
+  });
+});
